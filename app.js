@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
+const restaurantList = require('./models/seeds/restaurant')
 const app = express()
 const port = 3000
 
@@ -51,8 +52,9 @@ app.get('/restaurants/:id', (req, res) => {
 
 app.get('/search', (req, res) => {
 	const keyword = req.query.keyword
+	const results = []
 	const restaurants = restaurantList.results.filter(restaurant => {
-		return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+		if ((restaurant.name.toLowerCase().includes(keyword.toLowerCase())) || (restaurant.category.toLowerCase().includes(keyword.toLowerCase()))) return results
 	})
 	res.render('index', { restaurants: restaurants, keyword: keyword })
 })
@@ -76,7 +78,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 		.catch(error => console.log(error))
 })
 
-app.post('/restaurant/:id/delete', (req, res) => {
+app.post('/restaurants/:id/delete', (req, res) => {
 	const id = req.params.id
 	return Restaurant.findById(id)
 		.then(restaurant => restaurant.remove())
