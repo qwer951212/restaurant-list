@@ -42,13 +42,9 @@
             </div>
             <div class="card-footer text-right">
               <a href="./restaurants/{{ this._id }}/edit" class="btn btn-warning btn-sm">edit</a>
-              <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="deleteConfirm()">delete</button>
-                <script>
-                  function deleteConfirm() {
-                    alert("確定要刪除此餐廳資料?")
-                  }
-                </script>
+              <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST" style="display: inline"
+                onsubmit="return confirm('確定要刪除此餐廳資料?')">
+                <button type="submit" class="btn btn-danger btn-sm">delete</button>
               </form>
             </div>
           </div>
